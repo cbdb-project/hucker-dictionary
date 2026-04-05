@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hucker’s Dictionary of Official Titles in Imperial China</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="hero">
+        <div class="hero-copy">
+          <p class="eyebrow">Hucker 官職詞典</p>
+          <h1>Hucker’s Dictionary of Official Titles in Imperial China</h1>
+          <p class="hero-text">
+            這是一個用於瀏覽《Hucker’s Dictionary of Official Titles in Imperial China》的網頁應用，
+            可用來檢索詞條、依條件篩選結果，並查看各條目的標題、注音、朝代與釋義。
+          </p>
+        </div>
+        <div class="hero-stats">
+          <div class="stat-card">
+            <span class="stat-label">總筆數</span>
+            <strong id="totalRows">-</strong>
+          </div>
+          <div class="stat-card">
+            <span class="stat-label">目前顯示</span>
+            <strong id="visibleRows">-</strong>
+          </div>
+        </div>
+      </header>
+
+      <section class="toolbar">
+        <label class="search-box">
+          <span>搜尋</span>
+          <input
+            id="searchInput"
+            type="search"
+            placeholder="ID、標題、中文、拼音、正文、問題標記"
+            autocomplete="off"
+          />
+        </label>
+
+        <label>
+          <span>標題狀態</span>
+          <select id="titleStatusFilter">
+            <option value="">全部</option>
+          </select>
+        </label>
+
+        <label>
+          <span>正文狀態</span>
+          <select id="bodyStatusFilter">
+            <option value="">全部</option>
+          </select>
+        </label>
+
+        <label>
+          <span>朝代</span>
+          <select id="dynastyFilter">
+            <option value="">全部</option>
+          </select>
+        </label>
+
+        <label>
+          <span>排序</span>
+          <select id="sortOrder">
+            <option value="id-asc">ID 升序</option>
+            <option value="id-desc">ID 降序</option>
+            <option value="confidence">信心等級</option>
+            <option value="title">標題 A-Z</option>
+          </select>
+        </label>
+
+        <div class="toolbar-actions">
+          <button id="resetFiltersButton" type="button">重置</button>
+          <label class="upload-button" for="fileInput">載入本地 JSONL</label>
+          <input id="fileInput" type="file" accept=".jsonl,.json" hidden />
+        </div>
+      </section>
+
+      <section class="panel list-panel">
+        <div class="panel-header">
+          <h2>結果</h2>
+          <p id="resultMeta">等待載入資料</p>
+        </div>
+        <div id="resultList" class="result-list"></div>
+        <div class="pagination">
+          <button id="prevPageButton" type="button">上一页</button>
+          <p id="pageMeta">第 0 / 0 页</p>
+          <button id="nextPageButton" type="button">下一页</button>
+        </div>
+      </section>
+    </div>
+
+    <div id="recordModal" class="modal hidden" aria-hidden="true">
+      <div id="modalBackdrop" class="modal-backdrop"></div>
+      <div class="modal-dialog" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+        <div class="modal-header">
+          <div>
+            <p id="detailMeta" class="modal-kicker">選擇一筆記錄查看</p>
+            <h2 id="modalTitle" class="detail-headword">記錄詳情</h2>
+          </div>
+          <button id="closeModalButton" class="modal-close" type="button" aria-label="關閉">×</button>
+        </div>
+        <div id="detailView" class="detail-view empty-state">點擊表格列查看詳情</div>
+      </div>
+    </div>
+
+    <script type="module" src="./app.js"></script>
+  </body>
+</html>
