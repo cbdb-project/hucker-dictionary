@@ -1,88 +1,123 @@
-# Hucker Dictionary
+# Hucker’s Dictionary of Official Titles in Imperial China
 
-这是一个纯前端的静态网页应用，用来浏览 `data.json` 中整理出的《Hucker’s Dictionary of Official Titles in Imperial China》词条数据。页面不依赖构建工具，核心文件只有 [`index.html`](/Users/frank/Developer/hucker-dictionary/index.html)、[`app.js`](/Users/frank/Developer/hucker-dictionary/app.js)、[`styles.css`](/Users/frank/Developer/hucker-dictionary/styles.css) 和数据文件 [`data.json`](/Users/frank/Developer/hucker-dictionary/data.json)。
+## English
 
-## App 功能总结
+### What This Site Is
 
-根据 [`app.js`](/Users/frank/Developer/hucker-dictionary/app.js) 和 [`index.html`](/Users/frank/Developer/hucker-dictionary/index.html)，当前应用已经具备一套可直接用于人工校对和浏览的基础工作台：
+This site is a searchable browser for a working digital edition of *Hucker’s Dictionary of Official Titles in Imperial China*. It helps readers look up official titles, browse related dynasties, and inspect entry details in one place.
 
-- 自动读取同目录下的 `data.json`，并把每一行 JSONL 记录解析成词条。
-- 支持全文搜索，搜索范围覆盖 `id`、标题状态、正文状态、罗马字、中文、 Wade-Giles、拼音、英文释义、正文内容、朝代和问题标记。
-- 支持按 `title_status`、`body_status`、`dynasties_best` 筛选，并支持按 `ID`、标题和 `llm_confidence` 排序。
-- 结果列表按每页 20 条分页展示。
-- 点击结果可打开详情弹窗，查看标题层字段、正文、问题标记、备注以及原始 JSON。
-- 支持手动加载本地 `.jsonl` / `.json` 文件，便于替换数据源做抽查或增量校验。
-- 如果直接用 `file://` 打开导致 `fetch` 失败，界面会提示改用静态服务器或手动加载本地文件。
+It is designed for exploration and reference, not as a polished print replacement. Some entries are complete and easy to use; others are still provisional.
 
-从产品定位看，这个 app 更像“数据校对/审阅器”，而不是面向普通终端用户的词典站点。界面重点放在筛选、问题暴露和原始记录核查，而不是最终出版式展示。
+### What You Can Do
 
-## Data 现状总结
+- Search by entry ID, title, Chinese, Wade-Giles, pinyin, English gloss, body text, dynasty, or issue label.
+- Filter results by title status, body status, and dynasty.
+- Sort results by ID, title, or confidence level.
+- Browse results page by page.
+- Open any record to view its detailed fields, notes, issue tags, and raw source data.
+- Load an alternate JSONL/JSON data file if the site provides that option.
 
-[`data.json`](/Users/frank/Developer/hucker-dictionary/data.json) 虽然文件名是 `json`，实际格式是 JSONL。当前共 **8,291** 条记录，可以直接被页面逐行解析。
+### What You Will See in Each Record
 
-### 状态分布
+Depending on the entry, a record may include:
 
-| 字段 | 状态 | 数量 |
-| --- | --- | ---: |
-| `title_status` | `candidate` | 6,276 |
-| `title_status` | `uncertain` | 1,114 |
-| `title_status` | `normalized` | 900 |
-| `title_status` | `pending` | 1 |
-| `body_status` | `candidate` | 7,053 |
-| `body_status` | `normalized` | 944 |
-| `body_status` | `pending` | 211 |
-| `body_status` | `uncertain` | 83 |
-| `llm_confidence` | `medium` | 6,587 |
-| `llm_confidence` | `high` | 972 |
-| `llm_confidence` | `low` | 732 |
+- a title in one or more forms
+- Chinese headword
+- Wade-Giles form
+- pinyin form
+- dynasty or dynasties
+- English gloss
+- fuller body text
+- editorial notes
+- issue markers showing where the data is uncertain or incomplete
 
-这说明数据主体已经有较高覆盖率，但整体仍处于“候选稿”阶段。标题层和正文层都以 `candidate` 为主，真正达到 `normalized` 的记录仍是少数。
+### Important Limitations
 
-### 覆盖与缺口
+- This is a working dataset. Not every entry is fully checked or normalized.
+- Some titles are incomplete, uncertain, or missing.
+- Some pinyin and Wade-Giles forms are reconstructed rather than directly confirmed from the source.
+- Some dynasty labels are inconsistent or still being standardized.
+- Some entries are missing body text, or appear to have been merged, truncated, or damaged during extraction.
+- OCR noise and transcription problems remain in parts of the dataset.
+- Confidence labels are editorial signals, not guarantees of correctness.
 
-- 有 `issues` 标记的记录有 **7,961** 条，说明大多数记录仍保留了待核问题。
-- `body_best` 为空的记录有 **279** 条，正文缺失仍然存在。
-- `headword_pinyin_best` 为空的记录有 **474** 条。
-- `headword_wadegiles_best` 为空的记录有 **631** 条。
-- `dynasties_best` 为空的记录有 **884** 条，朝代归属仍有明显缺口。
+### How To Read the Status Labels
 
-### 朝代覆盖特点
+- `normalized`: relatively cleaner and more stabilized
+- `candidate`: usable, but still a working draft
+- `uncertain`: likely needs human review
+- `pending`: not yet fully prepared
 
-数据覆盖面很广，主量集中在常见大朝代：
+These labels are there to help you judge how much trust to place in a record before citing or reusing it.
 
-- `Song`: 2,289
-- `Qing`: 1,953
-- `Tang`: 1,769
-- `Ming`: 1,194
-- `Han`: 1,070
-- `Yuan`: 751
-- `Zhou`: 621
-- `Sui`: 568
+### Best Use of This Site
 
-同时也能看到同一朝代标签存在并存写法，例如 `Qing` / `Ch'ing`、`Yuan` / `Yüan`、`Zhou` / `Chou`，以及 `Northern and Southern`、`Northern and Southern Dynasties`、`N-S Div.` 等近义标签。这意味着朝代字段已经可用，但标准化尚未完成，筛选时会受到命名不一致影响。
+This site is most useful for:
 
-### 主要数据问题类型
+- locating possible official-title matches quickly
+- comparing title forms across Chinese, Wade-Giles, and pinyin
+- browsing dynasty-specific terminology
+- identifying records that need closer checking before scholarly use
 
-按 `issues` 统计，当前最常见的问题集中在以下几类：
+If you need a citation-grade result, treat the site as a finding aid and verify important entries against the original dictionary or other trusted reference works.
 
-- Wade-Giles 需要重建或保守恢复，例如 `wadegiles_reconstructed`、`wadegiles_uncertain`、`wadegiles_unrecoverable`。
-- OCR 噪声仍然大量存在，尤其体现在标题、正文和罗马字，如 `ocr_noise_in_body`、`ocr_noise_cleaned`、`ocr_noise_in_headword`。
-- 罗马字和拼音常依赖推断生成，而非直接从来源稳定抽取，如 `romanization_uncertain`、`pinyin_from_headword_only`、`pinyin_from_chinese_headword`。
-- 一部分记录来自不完整抽取，如 `missing_from_extraction`、`likely_merged_into_other_entry`。
+## 繁體中文
 
-整体上，这批数据已经足够支撑“检索 + 人工核对 + 问题定位”的工作流，但还不适合被当作完全定稿的数据集直接发布。
+### 這個網站是什麼
 
-## 当前仓库的真实定位
+這個網站是一個可搜尋的瀏覽介面，用來查閱 *Hucker’s Dictionary of Official Titles in Imperial China* 的數位整理版本。使用者可以在同一處查找官職名稱、瀏覽相關朝代，並查看條目細節。
 
-综合 app 功能和数据状态，这个仓库现在最适合承担以下角色：
+它的定位是「查詢與探索工具」，不是已完全定稿的出版版本。有些條目已較完整、可直接使用；也有一些仍屬暫定或待核狀態。
 
-- 作为 Hucker 官职词典整理数据的人工校对前端。
-- 作为 OCR / LLM 清洗结果的浏览与抽查工具。
-- 作为后续数据标准化前的中间成果展示层。
+### 你可以做什麼
 
-如果下一步要继续推进，优先级最高的工作应当是：
+- 依條目 ID、標題、中文、Wade-Giles、拼音、英文釋義、正文、朝代或問題標記搜尋。
+- 依標題狀態、正文狀態與朝代篩選結果。
+- 依 ID、標題或信心等級排序。
+- 逐頁瀏覽搜尋結果。
+- 打開單筆記錄查看詳細欄位、備註、問題標記與原始資料。
+- 如果網站提供此功能，也可以載入其他 JSONL / JSON 資料檔。
 
-1. 统一朝代标签命名。
-2. 继续减少 `candidate` / `uncertain` / `pending` 记录。
-3. 优先补齐缺失正文、缺失拼音、缺失 Wade-Giles 的条目。
-4. 针对 `issues` 高频项建立更系统的修复规则，而不是继续只靠单条人工修补。
+### 每筆記錄通常包含什麼
+
+依條目情況不同，一筆記錄可能包含：
+
+- 一種或多種標題形式
+- 中文詞頭
+- Wade-Giles 形式
+- 拼音形式
+- 所屬朝代
+- 英文釋義
+- 較完整的正文說明
+- 編校備註
+- 顯示資料不確定或不完整之處的問題標記
+
+### 重要局限
+
+- 這是一份仍在整理中的資料集，不是每條記錄都已完成校訂或標準化。
+- 有些標題仍不完整、不確定，或完全缺失。
+- 部分拼音與 Wade-Giles 形式是依現有資料重建，而非直接由原始來源明確確認。
+- 某些朝代標籤仍不一致，尚在持續統一。
+- 部分條目缺少正文，或在擷取過程中出現合併、截斷、破損等情況。
+- 資料中仍存在 OCR 雜訊與轉錄問題。
+- 信心等級只是編校上的提示，不代表內容一定正確。
+
+### 如何理解狀態標籤
+
+- `normalized`：相對較乾淨、較穩定
+- `candidate`：可以參考，但仍屬工作中的版本
+- `uncertain`：很可能仍需人工複核
+- `pending`：尚未整理完成
+
+這些標籤的作用，是幫助你判斷在引用或再利用某筆資料前，應該保留多少審慎。
+
+### 這個網站最適合怎麼用
+
+這個網站特別適合用來：
+
+- 快速定位可能對應的官職名稱
+- 對照中文、Wade-Giles 與拼音等不同形式
+- 瀏覽特定朝代的官職用語
+- 找出在正式研究使用前需要進一步核對的條目
+
+如果你需要可直接引用的結果，建議把這個網站當作檢索入口，再回頭核對原始詞典或其他可靠參考資料。
